@@ -1,23 +1,101 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" href="style.css">
-    <script src="script.js"></script>
-    <title>Timer</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Countdown Timer</title>
+  <style>
+    body {
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f3f3f3;
+    }
+
+    .timer-container {
+      text-align: center;
+    }
+
+    .timer {
+      font-size: 36px;
+      font-family: 'Arial', sans-serif;
+      color: #333;
+    }
+
+    .controls {
+      margin-top: 20px;
+    }
+
+    label {
+      font-size: 16px;
+      margin-right: 10px;
+    }
+
+    input {
+      padding: 10px;
+      font-size: 16px;
+    }
+
+    button {
+      padding: 10px 20px;
+      font-size: 16px;
+      cursor: pointer;
+      background-color: #2ecc71;
+      color: #fff;
+      border: none;
+      border-radius: 4px;
+    }
+  </style>
 </head>
 <body>
-    <h1>TIMER</h1>
-    <div class="field">
-        <label for="">Input time in seconds</label>
-        <input type="number" id="seconds">
-    </div>
-    <button id="startBtn">Start</button>
-    <div class="clock">
-        <div class="circle"></div>
-        <div class="hand"></div>
-        <div class="count"></div>
-    </div>
+  <div class="timer-container">
+    <label for="timeInput">Set Time (seconds):</label>
+    <input type="number" id="timeInput" placeholder="Enter time in seconds" />
+    <button onclick="startTimer()">Start</button>
+    <div class="timer" id="timer">00:00</div>
+  </div>
+
+  <script>
+    let timerInterval;
+    let seconds;
+
+    function startTimer() {
+      stopTimer(); // Stop the previous timer, if any
+
+      seconds = parseInt(document.getElementById('timeInput').value, 10) || 0;
+
+      if (seconds > 0) {
+        updateTimerDisplay();
+
+        timerInterval = setInterval(function () {
+          if (seconds <= 0) {
+            stopTimer();
+          } else {
+            seconds--;
+            updateTimerDisplay();
+          }
+        }, 1000);
+      }
+    }
+
+    function stopTimer() {
+      clearInterval(timerInterval);
+      timerInterval = null;
+    }
+
+    function updateTimerDisplay() {
+      const minutes = Math.floor(seconds / 60);
+      const remainingSeconds = seconds % 60;
+
+      const formattedTime = `${padZero(minutes)}:${padZero(remainingSeconds)}`;
+      document.getElementById('timer').innerText = formattedTime;
+    }
+
+    function padZero(value) {
+      return value < 10 ? `0${value}` : value;
+    }
+  </script>
 </body>
 </html>
