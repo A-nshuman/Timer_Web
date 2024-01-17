@@ -7,6 +7,7 @@ document.addEventListener('DOMContentLoaded', () => {
     display_text.innerHTML = seconds.value
 
     function timer() {
+        seconds.style.color = 'white'
         display_text.innerHTML = seconds.value;
         seconds.value--;
         hand.style.animation = `handAnim ${parseInt(seconds.value) + 1}s linear`
@@ -15,7 +16,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 display_text.innerHTML = seconds.value;
                 console.log(seconds.value)
                 seconds.value--;
-                // seconds.style.color = 'white'
             } else {
                 clearInterval(timer_start)
                 seconds.value = ''
